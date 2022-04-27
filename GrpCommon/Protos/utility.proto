@@ -1,0 +1,48 @@
+﻿syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+option csharp_namespace = "Test.Communication.Grpc";
+
+package NodeGrpc;
+
+message AppendItemsRequest {
+  NodeBaseRequest BaseRequest = 1;
+  GrpcItem Item = 2;
+}
+
+message BaseResponse{
+  string Sender = 1;
+  bool Success = 2;
+  string Message = 3;
+  repeated string Parameters = 4;
+}
+
+message NodeBaseRequest{
+  uint64 TransactionId = 1;
+}
+
+message GrpcItemRequest{
+  NodeBaseRequest Request = 1;
+  GrpcItem GrpcItem = 2;
+}
+
+message GrpcItem {
+  int32 NtinId = 1;
+  string Serial = 2;
+  google.protobuf.Int32Value PNtinId = 3;
+  string PSerial = 4;
+  int32 Type = 5;
+  int32 Sequence = 6;
+  int32 Status = 7;
+  string QAStatus = 8;
+  string HelperCode = 9;
+  string WorkOrderId = 10;
+  string Flags = 11;
+  int32 Notification = 12;
+  string Zone = 13;
+  map<string, string> VariableData = 14;
+}
+
+service GrpcService{
+  //Append items command
+  rpc AppendItems(stream AppendItemsRequest) returns (BaseResponse){};
+  }
